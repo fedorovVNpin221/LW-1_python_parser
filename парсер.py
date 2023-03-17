@@ -1,21 +1,22 @@
 from bs4 import BeautifulSoup
 import requests
 
-url = 'https://www.omgtu.ru/general_information/the-structure/the-department-of-university.php'
-page = requests.get(url)
-soup = BeautifulSoup(page.text, "lxml")
+def parse():
+    url = 'https://www.omgtu.ru/general_information/the-structure/the-department-of-university.php'
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, "lxml")
 
-main_headline = soup.find("h1", class_="main__title")
-headlines = soup.find("div", id="pagecontent").find_all("a")
-file = open("список_кафедр_омгту.txt", "w+")
-file.write(main_headline.text.strip())
-file.write(':')
-file.write('\n')
-for item in headlines:
-    faculty_text = item.text
-    faculty_url = item.get("href")
-    print(f"{faculty_text}: {faculty_url}", file=file)
-    print('\n', file=file)
+    main_headline = soup.find("h1", class_="main__title")
+    headlines = soup.find("div", id="pagecontent").find_all("a")
+    file = open("список_кафедр_омгту.txt", "w+")
+    file.write(main_headline.text.strip())
+    file.write(':')
+    file.write('\n')
+    for item in headlines:
+        faculty_text = item.text
+        faculty_url = item.get("href")
+        print(f"{faculty_text}: {faculty_url}", file=file)
+        print('\n', file=file)
 
 
 # file.write("\n".join(headlines1).join("\n"))
